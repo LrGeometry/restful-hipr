@@ -1,0 +1,10 @@
+{
+    "blockchain_": {
+        "eos": {
+            "address": ""
+        },
+        "eth": {
+            "address": "0xEFFEFEBF"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "herc-eth-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "SET NODE_ENV=dev && node ./bin/www",
+    "test": "mocha --timeout 10000"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "debug": "~2.6.9",
+    "eosjs": "^16.0.6",
+    "ethereum-tx-decoder": "^2.0.1",
+    "express": "~4.15.5",
+    "jade": "~1.11.0",
+    "lodash": "^4.17.10",
+    "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.1.1",
+    "socketio-jwt": "^4.5.0",
+    "solc": "0.4.24",
+    "web3": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.5.3"
+  }
+}
