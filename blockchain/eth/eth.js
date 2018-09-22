@@ -67,24 +67,14 @@ class Eth {
         return contract
     }
 
-    contractGetPastEvents (web3, contract, eventName, options, cb) {
-        let web3 = this.defaultWeb3()
-        web3.contract.getPastEvents(eventName, options, (error, results) => {
-            if (error) {
-                console.log(error)
-                return
-            }
-            results.forEach(event => {
-                cb(event)
-            })
-        })
-    }
-/*
-    *** this is the prototype of:
-    contractGetPastEvents (TYPE web3, URGENT TYPE contract, STRING eventName, ANY options, CB cb) {
+    // web3 events 1.0 common - todo: review [
+    /*
+        *** this is the prototype of:
+        contractGetPastEvents (TYPE web3, URGENT TYPE contract, STRING eventName, ANY options, CB cb) {
+    */
 
-    contractGetPastEvents (web3, contract, eventName, options, cb) {
-        web3.contract.getPastEvents(eventName, options, (error, results) => {
+    contractGetPastEvents (contract, eventName, options, cb) {
+        contract.getPastEvents(eventName, options, (error, results) => {
             if (error) {
                 console.log(error)
                 return
@@ -94,12 +84,12 @@ class Eth {
             })
         })
     }
-*/
+
     getLastEvents () {
         // todo: 
     }
 
-    getEventsAsync () {
+    async getEvents () {
 
     }
 
@@ -109,7 +99,7 @@ class Eth {
         });
     }
 
-
+    // web3 events 1.0 common - todo: review ]
 
     // web3:contract ]
     // web3 core ]
@@ -186,16 +176,53 @@ class Eth {
     // PlayerScore ]
     // PuzzleManager [
 
+    // web3 events 1.1 createPuzzle [
+
+    async getEventForUniqueId (uniqueId) {
+        let contract = this.puzzleManager
+        let eventName = 'PuzzleCreated'
+        let options = {}
+//        let json = await new Promise(async resolve => 
+//            resolve(await blockchain.getTopScoresCount()));
+
+        // experimental cachedEvents
+        // todo: review multiple requests errors processing
+        this.cachedEvents = this.cachedEvents || {}
+    
+        let event = await new Promise(async (resolve, reject) => {
+            contract.getPastEvents(eventName, options, (error, results) => {
+                if (error)
+                    return reject(error)
+
+                for (var i = 0; i < results.length; i++) {
+                    var res = results[i]
+                    this.cachedEvents[res.returnValues.uniqueId] = res
+                }
+
+                let event = this.cachedEvents[uniqueId]
+                
+                resolve(event)
+            })
+        })
+
+        return event
+    }
+
+    // web3 events 1.1 createPuzzle ]
+
     async createPuzzle (metrics) {
         try {
             let web3 = this.defaultWeb3()
             let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.CreatePuzzle(metrics).estimateGas()
-            let result = await this.puzzleManager.methods.CreatePuzzle(metrics).send({
+            let uniqueId = Math.random().toString(36)+Math.random().toString(36);
+
+            let gas = await this.puzzleManager.methods.CreatePuzzle(metrics, uniqueId).estimateGas()
+            let result = await this.puzzleManager.methods.CreatePuzzle(metrics, uniqueId).send({
                 from,
                 gas
             })
-            var puzzleId // is event
+            let event = await this.getEventForUniqueId(uniqueId)
+            var puzzleId = event.returnValues.puzzleId
             return {
                 puzzleId: parseInt(puzzleId)
             }
@@ -214,10 +241,6 @@ class Eth {
             let from = this.options.contracts.PuzzleManager.options.from
             let gas = await this.puzzleManager.methods.PushMetrics(puzzleId, metrics).estimateGas()
             let result = await this.puzzleManager.methods.PushMetrics(puzzleId, metrics).send({
-                from, 
-                gas
-            })
-            let res = await this.puzzleManager.methods.PushMetrics(puzzleId, metrics).call({
                 from, 
                 gas
             })
@@ -248,6 +271,48 @@ class Eth {
         }
         catch (e) {
             console.log('compareMetrics error', e.message)
+            return {
+                err: e.message
+            }
+        }
+    }
+
+    async getPuzzleOriginalMetrics (puzzleId) {
+        try {
+            let web3 = this.defaultWeb3()
+            let from = this.options.contracts.PuzzleManager.options.from
+            let gas = await this.puzzleManager.methods.GetPuzzleOriginalMetrics(puzzleId).estimateGas()
+            let metrics = await this.puzzleManager.methods.GetPuzzleOriginalMetrics(puzzleId).call({
+                from, 
+                gas
+            })
+            return {
+                metrics
+            }
+        }
+        catch (e) {
+            console.log('getPuzzleOriginalMetrics error', e.message)
+            return {
+                err: e.message
+            }
+        }
+    }
+
+    async getPuzzleMetrics (puzzleId) {
+        try {
+            let web3 = this.defaultWeb3()
+            let from = this.options.contracts.PuzzleManager.options.from
+            let gas = await this.puzzleManager.methods.GetPuzzleMetrics(puzzleId).estimateGas()
+            let metrics = await this.puzzleManager.methods.GetPuzzleMetrics(puzzleId).call({
+                from, 
+                gas
+            })
+            return {
+                metrics
+            }
+        }
+        catch (e) {
+            console.log('getPuzzleMetrics error', e.message)
             return {
                 err: e.message
             }

@@ -122,6 +122,14 @@ class Blockchain {
         return await this.activeChain.compareMetrics(puzzleId)
     }
 
+    async getPuzzleOriginalMetrics (puzzleId) {
+        return await this.activeChain.getPuzzleOriginalMetrics(puzzleId)
+    }
+    
+    async getPuzzleMetrics (puzzleId) {
+        return await this.activeChain.getPuzzleMetrics(puzzleId)
+    }
+    
     // PuzzleManager ]
     // method 0 ]
     // method 1 [

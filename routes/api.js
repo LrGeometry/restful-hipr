@@ -107,36 +107,39 @@ router.post('/compareMetrics/:puzzleId', async (req, res, next) => {
     res.json(json);
 });
 
-/*
-router.api('/compareMetrics/:puzzleId', function(req, res, next) {
-    let result = PuzzleManager.methods.CreatePuzzle(req.param.puzzleId)
-    res.json({result})
-});
-*/
+// TODO: recheck smart contract getPuzzleOriginalHash and getPuzzleOriginalMetrics [
+// !!!
+
 /**
- * @name api/getPuzzleOriginalHash
+ * @name api/getPuzzleOriginalMetrics
  * @param {Number} puzzleId Puzzle id
  * @returns {String} Puzzle hash
  * todo: review msg.sender address
  */
-/*
-router.get('/getPuzzleOriginalHash/:puzzleId', function(req, res, next) {
-    let puzzleHash = PuzzleManager.methods.GetPuzzleOriginalHash(req.param.puzzleId)
-    res.json({puzzleHash})
+
+router.post('/getPuzzleOriginalMetrics/:puzzleId', async (req, res, next) => {
+    let puzzleId = parseInt(req.params.puzzleId)
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.getPuzzleOriginalMetrics(puzzleId)));
+    res.json(json);
 });
-*/
+
+// TODO: recheck smart contract getPuzzleOriginalHash and getPuzzleOriginalMetrics ]
+
 /**
  * @name api/getPuzzleMetrics
  * @param {Number} puzzleId Puzzle id
  * @returns {String} Puzzle metrics
  * todo: review msg.sender address
  */
-/*
-router.get('/getPuzzleMetrics/:puzzleId', function(req, res, next) {
-    let puzzleMetrics = PuzzleManager.methods.GetPuzzleMetrics(req.param.puzzleId)
-    res.json({puzzleMetrics})
+
+router.post('/getPuzzleMetrics/:puzzleId', async (req, res, next) => {
+    let puzzleId = parseInt(req.params.puzzleId)
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.getPuzzleMetrics(puzzleId)));
+    res.json(json);
 });
-*/
+
 // api:PuzzleManager ]
 
 // new smartcontract sever verify logic [

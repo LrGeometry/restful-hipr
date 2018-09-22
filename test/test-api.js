@@ -126,40 +126,60 @@ describe('/POST api/1.0/pushMetrics (metrics="metrics007") => {result::web3.tran
 // POST pushMetrics ]
 // GET compareMetrics [
 
-describe('/GET api/1.0/compareMetrics', () => {
+describe('/GET api/1.0/compareMetrics (puzzleId) => {result::bool}', () => {
     it('it should GET compare metrics', (done) => {
         let puzzleId = testPuzzleId;
         chai.request(url)
             .post(`api/1.0/compareMetrics/${puzzleId}`)
             .end((err, res) => {
+                err && err.should.be.null();
                 res.should.have.status(200);
-//                res.body.should.be.a('array');
-//                res.body.length.should.be.eql(0);
+                res.body.should.exist;
+                res.body.result.should.equal(true)
                 done();
             });
     });
 });
 
 // GET compareMetrics ]
-// GET getPuzzleOriginalHash [
-/*
-describe('/GET api/1.0/getPuzzleOriginalHash', () => {
+// GET GetPuzzleOriginalMetrics [
+
+describe('/GET api/1.0/getPuzzleOriginalMetrics (puzzleId) => {metrics::string}', () => {
     it('it should GET get puzzle original hash', (done) => {
-        let puzzleId = 1;
-        chai.request(server)
-            .post(`api/1.0/getPuzzleOriginalHash/${puzzleId}`)
+        let puzzleId = testPuzzleId;
+        chai.request(url)
+            .post(`api/1.0/getPuzzleOriginalMetrics/${puzzleId}`)
             .end((err, res) => {
+                err && err.should.be.null();
                 res.should.have.status(200);
-//                res.body.should.be.a('array');
-//                res.body.length.should.be.eql(0);
+                res.body.should.exist;
+                res.body.metrics.should.be.a("string")
+                res.body.metrics.should.equal('metrics007')
                 done();
             });
     });
 });
 
-// GET getPuzzleOriginalHash ]
+// GET getPuzzleOriginalMetrics ]
 // GET getPuzzleMetrics [
 
+describe('/GET api/1.0/getPuzzleMetrics (puzzleId) => {metrics::string-hash}', () => {
+    it('it should GET get puzzle metrics', (done) => {
+        let puzzleId = testPuzzleId;
+        chai.request(url)
+            .post(`api/1.0/getPuzzleMetrics/${puzzleId}`)
+            .end((err, res) => {
+                err && err.should.be.null();
+                res.should.have.status(200);
+                res.body.should.exist;
+                res.body.metrics.should.exist;
+                res.body.metrics.should.be.a("string")
+                res.body.metrics.should.equal('0xc843c6d4f14ee6a90da53c75724404742253f31039d737a487a187ddaad845c3c843c6d4f14ee6a90da53c75724404742253f31039d737a487a187ddaad845c3')
+                done();
+            });
+    });
+});
+    /*
 describe('/GET api/1.0/getPuzzleMetrics', () => {
     it('it should GET get puzzle original hash', (done) => {
         let puzzleId = 1;

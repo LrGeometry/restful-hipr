@@ -1,3 +1,10 @@
+echo Generating ABI using gen-contracts.js
+node gen-contracts.js
+
+exit $?
+
+# NOT USED BY POOR CLI OPTIONS. USE JS EVERYWHERE! [
+
 echo '***'
 echo "Error: gen-abi.sh is old version. Please use gen-contracts.js"
 echo '***'
@@ -21,3 +28,5 @@ compile_abi () {
 
 compile_abi PlayerScore.sol
 compile_abi PuzzleManager.sol
+
+# NOT USED BY POOR CLI OPTIONS. USE JS EVERYWHERE! ]
