@@ -100,7 +100,7 @@ router.post('/pushMetrics/:puzzleId/:metrics', async (req, res, next) => {
  * todo: review msg.sender address
  */
 
-router.post('/compareMetrics/:puzzleId', async (req, res, next) => {
+router.get('/compareMetrics/:puzzleId', async (req, res, next) => {
     let puzzleId = parseInt(req.params.puzzleId)
     let json = await new Promise(async resolve => 
         resolve(await blockchain.compareMetrics(puzzleId)));
@@ -117,7 +117,7 @@ router.post('/compareMetrics/:puzzleId', async (req, res, next) => {
  * todo: review msg.sender address
  */
 
-router.post('/getPuzzleOriginalMetrics/:puzzleId', async (req, res, next) => {
+router.get('/getPuzzleOriginalMetrics/:puzzleId', async (req, res, next) => {
     let puzzleId = parseInt(req.params.puzzleId)
     let json = await new Promise(async resolve => 
         resolve(await blockchain.getPuzzleOriginalMetrics(puzzleId)));
@@ -133,7 +133,7 @@ router.post('/getPuzzleOriginalMetrics/:puzzleId', async (req, res, next) => {
  * todo: review msg.sender address
  */
 
-router.post('/getPuzzleMetrics/:puzzleId', async (req, res, next) => {
+router.get('/getPuzzleMetrics/:puzzleId', async (req, res, next) => {
     let puzzleId = parseInt(req.params.puzzleId)
     let json = await new Promise(async resolve => 
         resolve(await blockchain.getPuzzleMetrics(puzzleId)));

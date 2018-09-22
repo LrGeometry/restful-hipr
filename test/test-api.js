@@ -130,7 +130,7 @@ describe('/GET api/1.0/compareMetrics (puzzleId) => {result::bool}', () => {
     it('it should GET compare metrics', (done) => {
         let puzzleId = testPuzzleId;
         chai.request(url)
-            .post(`api/1.0/compareMetrics/${puzzleId}`)
+            .get(`api/1.0/compareMetrics/${puzzleId}`)
             .end((err, res) => {
                 err && err.should.be.null();
                 res.should.have.status(200);
@@ -148,7 +148,7 @@ describe('/GET api/1.0/getPuzzleOriginalMetrics (puzzleId) => {metrics::string}'
     it('it should GET get puzzle original hash', (done) => {
         let puzzleId = testPuzzleId;
         chai.request(url)
-            .post(`api/1.0/getPuzzleOriginalMetrics/${puzzleId}`)
+            .get(`api/1.0/getPuzzleOriginalMetrics/${puzzleId}`)
             .end((err, res) => {
                 err && err.should.be.null();
                 res.should.have.status(200);
@@ -167,7 +167,7 @@ describe('/GET api/1.0/getPuzzleMetrics (puzzleId) => {metrics::string-hash}', (
     it('it should GET get puzzle metrics', (done) => {
         let puzzleId = testPuzzleId;
         chai.request(url)
-            .post(`api/1.0/getPuzzleMetrics/${puzzleId}`)
+            .get(`api/1.0/getPuzzleMetrics/${puzzleId}`)
             .end((err, res) => {
                 err && err.should.be.null();
                 res.should.have.status(200);
@@ -179,23 +179,8 @@ describe('/GET api/1.0/getPuzzleMetrics (puzzleId) => {metrics::string-hash}', (
             });
     });
 });
-    /*
-describe('/GET api/1.0/getPuzzleMetrics', () => {
-    it('it should GET get puzzle original hash', (done) => {
-        let puzzleId = 1;
-        chai.request(server)
-            .post(`api/1.0/getPuzzleMetrics/${puzzleId}`)
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.a('string');
-//                res.body.length.should.be.eql(0);
-                done();
-            });
-    });
-});
 
 // GET getPuzzleMetrics ]
 // test:api:PuzzleManager ]
 
 // Test - RESTful Web Service - Method 0 - Dev API ]
-*/
