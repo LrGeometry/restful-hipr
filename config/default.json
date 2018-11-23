@@ -1,4 +1,5 @@
 {
+    "mongodb": "mongodb://localhost/hipr-restful",
     "blockchain": {
         "activeChain": ["eth", "local-ganache"],
         "//activeChain": ["eos", "main"],

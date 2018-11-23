@@ -65,6 +65,83 @@ router.post('/setScore/:score', async (req, res, next) => {
 // api:PlayerScore ]
 // api:PuzzleManager [
 
+// X.1 SECURE PUZZLE [
+
+/**
+ * @name api/registerPuzzleAddress
+ * @param {String} address 0xadddress
+ * @param {String} params Params into hiprs like 'username/assetid/factomchainhash/ipfsHash/0xaddress'
+ * @returns {Number} Puzzle id
+ */
+/*router.post('/registerPuzzleAddress', async (req, res, next) => {
+    let params = req.params.params
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.registerPuzzleAddress(address, params)));
+    res.json(json);
+});
+*/
+
+router.post('/registerPuzzleAddress/:address/:params', async (req, res, next) => {
+    let address = req.params.address
+    let params = req.params.params
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.registerPuzzleAddress(address, params)));
+    res.json(json);
+});
+
+/**
+ * @name api/createPuzzleSecure
+ * @param {String} address 0xadddress
+ * @param {String} puzzleType Puzzle type ("rubic-cube", "15")
+ * @param {String} plainTextMetrics Plain text metrics (optional for non-games)
+ * @returns {Number} Puzzle id
+ */
+
+router.post('/createPuzzleSecure/:address/:puzzleType/:plainTextMetrics', async (req, res, next) => {
+    let address = req.params.address
+    let puzzleType = req.params.puzzleType
+    let plainTextMetrics = req.params.plainTextMetrics
+    
+    if (plainTextMetrics == 'undefined')
+        plainTextMetrics = ''
+
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.createPuzzleSecure(address, puzzleType, plainTextMetrics, true)));
+    res.json(json);
+});
+
+/**byOwner
+ * @name api/pushSecureMetrbyOwnerics
+ * @param {Number} puzzleIdbyOwner Puzzle id
+ * @param {String} metricsHash Puzzle metrics hash
+ * @returns {Boolean} true if success
+ */
+
+router.post('/pushSecureMetrics/:puzzleId/:metricsHash', async (req, res, next) => {
+    let puzzleId = parseInt(req.params.puzzleId)
+    let metricsHash = req.params.metricsHash
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.pushSecureMetrics(puzzleId, metricsHash)));
+    res.json(json);
+});
+
+/**
+ * @name api/compareSecureMetrics
+ * @param {Number} puzzleId Puzzle id
+ * @returns {Boolean} true if equal
+ * todo: review msg.sender address
+ */
+
+router.get('/compareSecureMetrics/:puzzleId', async (req, res, next) => {
+    let puzzleId = parseInt(req.params.puzzleId)
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.compareSecureMetrics(puzzleId, true)));
+    res.json(json);
+});
+
+// X.1 SECURE PUZZLE ]
+// X.2 UNSECURE PUZZLE [
+
 /**
  * @name api/createPuzzle
  * @param {String} metrics Puzzle metrics
@@ -74,7 +151,7 @@ router.post('/setScore/:score', async (req, res, next) => {
 router.post('/createPuzzle/:metrics', async (req, res, next) => {
     let metrics = req.params.metrics
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.createPuzzle(metrics)));
+        resolve(await blockchain.createPuzzle(metrics, true)));
     res.json(json);
 });
 
@@ -106,6 +183,8 @@ router.get('/compareMetrics/:puzzleId', async (req, res, next) => {
         resolve(await blockchain.compareMetrics(puzzleId)));
     res.json(json);
 });
+
+// X.2 UNSECURE PUZZLE ]
 
 // TODO: recheck smart contract getPuzzleOriginalHash and getPuzzleOriginalMetrics [
 // !!!

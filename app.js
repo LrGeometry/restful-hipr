@@ -41,8 +41,24 @@ app.set('view engine', 'jade');
 auth(passport);
 app.use(passport.initialize());
 
-process.env.PORT = 8080
-app.set('port', process.env.PORT)
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+var port = normalizePort(process.env.PORT || '8086');
+app.set('port', port)
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -56,6 +72,14 @@ app.use(cookieSession({
 }));
 
 app.use(cookieParser());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); //My frontend APP domain
+//  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:8080"); //My frontend APP domain
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -120,8 +144,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(8080, function () {
-  console.log('We are listening on port 8080!')
+app.listen(port, function () {
+  console.log(`We are listening on port ${port}!`)
 });
 
 
