@@ -17,8 +17,24 @@ var options;
 function init(blockchain_, options_) {
     blockchain = blockchain_;
     options = options_;
+    ipfsGetFile()
 }
 
+const ipfsAPI = require('ipfs-api');
+
+//connecting to the ipfs network via infura gateway
+const ipfs = ipfsAPI('ipfs.infura.io', '5001', { protocol: 'https' })
+
+function ipfsGetFile(req, res, next) {
+    const validCID = 'QmQhM65XyqJ52QXWPz2opaGkALgH8XXhPn8n8nff4LDE6C'
+
+    ipfs.files.get(validCID, function (err, files) {
+      files.forEach((file) => {
+        console.log(file.path)
+        console.log(file.content.toString('utf8'))
+      })
+    })
+}
 // init ]
 
 // api:PlayerScore [
@@ -65,6 +81,41 @@ router.post('/setScore/:score', async (req, res, next) => {
 // api:PlayerScore ]
 // api:PuzzleManager [
 
+// Y.1 EXTERNAL LINK [
+
+// Julie: I dont want to overcomplicate things with post request. its a single get request at /0xaddress/ipfsHash
+
+/**
+ * @name api/ipfsRequest
+ * @param {String} address 0xadddress
+ * @param {String} ipfsHash ipfs hash
+ * @returns {Number} Puzzle id
+ */
+
+router.get('/ipfsRequest/:address/:ipfsHash/:ipfsFilePath', async (req, res, next) => {
+    let address = req.params.address
+    let ipfsHash = req.params.ipfsHash
+    ipfs.files.get(ipfsHash, function (err, files) {
+        files.forEach((file) => {
+            if (file.path == ipfsFilePath) {
+                console.log(file.path)
+                console.log(file.content.toString('utf8'))
+
+                var params = {
+                    ipfsHash: ipfsHash,
+                    ipfsFilePath: ipfsFilePath,
+                    content: content
+                }
+
+                let json = await new Promise(async resolve => 
+                    resolve(await blockchain.registerPuzzleAddress(address, params)));
+                res.json(json);
+            }
+        })
+    })
+});
+
+// Y.1 EXTERNAL LINK ]
 // X.1 SECURE PUZZLE [
 
 /**
@@ -73,15 +124,8 @@ router.post('/setScore/:score', async (req, res, next) => {
  * @param {String} params Params into hiprs like 'username/assetid/factomchainhash/ipfsHash/0xaddress'
  * @returns {Number} Puzzle id
  */
-/*router.post('/registerPuzzleAddress', async (req, res, next) => {
-    let params = req.params.params
-    let json = await new Promise(async resolve => 
-        resolve(await blockchain.registerPuzzleAddress(address, params)));
-    res.json(json);
-});
-*/
 
-router.post('/registerPuzzleAddress/:address/:params', async (req, res, next) => {
+ router.post('/registerPuzzleAddress/:address/:params', async (req, res, next) => {
     let address = req.params.address
     let params = req.params.params
     let json = await new Promise(async resolve => 

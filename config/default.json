@@ -1,48 +1,157 @@
 {
-    "mongodb": "mongodb://localhost/hipr-restful",
-    "blockchain": {
-        "activeChain": ["eth", "local-ganache"],
-        "//activeChain": ["eos", "main"],
-        "eos": {
-            "main": {
-                "address": ""
+  "mongodb": "mongodb://localhost/hipr-restful",
+  "blockchain": {
+    "activeChain": [
+      "eth",
+      "ganache"
+    ],
+    "//activeChain": [
+      "eos",
+      "main"
+    ],
+    "eos": {
+      "main": {
+        "address": ""
+      }
+    },
+    "eth": {
+      "local-ganache": {
+        "url": "http://localhost:7545",
+        "contracts": {
+          "PlayerScore": {
+            "abiPath": "contracts/PlayerScore.abi",
+            "address": "0x7ff12405aabebf121f9cecedc0664bca5d85fb19",
+            "options": {
+              "from": "0x9a4770D5CE5f30F9Db0c537f04a485836A72BDbF",
+              "//gas": 4612000,
+              "//gasPrice": 1
             }
-        },
-        "eth": {
-            "local-ganache": {
-                "url": "http://localhost:7545",
-                "contracts": {
-                    "PlayerScore": {
-                        "abiPath": "contracts/PlayerScore.abi",
-                        "address": "0x7ff12405aabebf121f9cecedc0664bca5d85fb19",
-                        "options": {
-                            "from": "0x9a4770D5CE5f30F9Db0c537f04a485836A72BDbF",
-                            "//gas": 4.612e6,
-                            "//gasPrice": 1
-                        }
-                    },
-                    "PuzzleManager": {
-                        "abiPath": "contracts/PuzzleManager.abi",
-                        "address": "0xb9c290788b604d52ad665bb3813dcdb4f2921655",
-                        "options": {
-                            "from": "0x9a4770D5CE5f30F9Db0c537f04a485836A72BDbF"
-                        }
-                    }
-            
-                }
-            },
-            "infura-ropsten": {
-                "url": "https://ropsten.infura.io/CHs7q12LsOAlHu4D3Kvr"
-            },
-            "infura-mainnet": {
-                "url": "https://mainnet.infura.io/CHs7q12LsOAlHu4D3Kvr"
-            },
-            "infura-rinkeby": {
-                "url": "https://rinkeby.infura.io/CHs7q12LsOAlHu4D3Kvr"
-            },
-            "infura-kovan": {
-                "url": "https://kovan.infura.io/CHs7q12LsOAlHu4D3Kvr"
+          },
+          "PuzzleManager": {
+            "abiPath": "contracts/PuzzleManager.abi",
+            "address": "0xb9c290788b604d52ad665bb3813dcdb4f2921655",
+            "options": {
+              "from": "0x9a4770D5CE5f30F9Db0c537f04a485836A72BDbF"
             }
+          }
         }
+      },
+      "infura-ropsten": {
+        "url": "https://ropsten.infura.io/CHs7q12LsOAlHu4D3Kvr"
+      },
+      "infura-mainnet": {
+        "url": "https://mainnet.infura.io/CHs7q12LsOAlHu4D3Kvr"
+      },
+      "infura-rinkeby": {
+        "url": "https://rinkeby.infura.io/CHs7q12LsOAlHu4D3Kvr"
+      },
+      "infura-kovan": {
+        "url": "https://kovan.infura.io/CHs7q12LsOAlHu4D3Kvr"
+      },
+      "ganache": {
+        "contracts": {
+          "PlayerScore": {
+            "options": {},
+            "address": "0x4d4d8b58f5dc278e828c625cfe34cc8891372a50",
+            "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/hipr/lastest-deployed/PlayerScore.abi.json",
+            "validation": {
+              "contractName": "PlayerScore",
+              "sourcePath": "",
+              "exportedSymbols": {
+                "PlayerScore": [
+                  453
+                ]
+              },
+              "compiler": {
+                "name": "solc",
+                "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+              },
+              "updatedAt": "2019-01-01T18:54:24.806Z",
+              "validation": {
+                "hash": "8856664a457664239e4fcec3b7c5dfe86661a77675f67b916ebe49426af27214",
+                "deployDate": "2019-01-01T18:54:25.815Z",
+                "deployBy": "HERC Team",
+                "abiHash": "9987aad8a2da4eabaae74910edbc9f7c7edbcb491b0b07362dda5341bb38c104",
+                "sourceSize": 18070,
+                "sourceLines": 218,
+                "sourceHash": "3fd91aa15724539f7ac899bf7796b9042a3ce42a31b5e99e3c4bbd72011962f7",
+                "bytecodeHash": "a890b66e2cfb2f0655f4e48cef249c944a0bd6f6404f90e1def54c89e7d56917",
+                "buildHash": "5f65fb2cb2bb20f0744d07c8801aefdd0be28af930ace0554b5f1a3f66e4c047"
+              }
+            }
+          },
+          "PuzzleManager": {
+            "options": {},
+            "address": "0xcbfc28d3c878090d2402bad6fd915ac17377e935",
+            "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/hipr/lastest-deployed/PuzzleManager.abi.json",
+            "validation": {
+              "contractName": "PuzzleManager",
+              "sourcePath": "",
+              "exportedSymbols": {
+                "PuzzleManager": [
+                  464
+                ]
+              },
+              "compiler": {
+                "name": "solc",
+                "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+              },
+              "updatedAt": "2019-01-01T18:54:24.813Z",
+              "validation": {
+                "hash": "a941a14372d705281fbb40253cab0dd6c92d0a7ab9fece27e5db4bbd99b89331",
+                "deployDate": "2019-01-01T18:54:26.683Z",
+                "deployBy": "HERC Team",
+                "abiHash": "adbc4184e514c05b0519c1736e80fa0dfa7cde1a22e399f1bd778be7805634f1",
+                "sourceSize": 7920,
+                "sourceLines": 137,
+                "sourceHash": "eaf972332db6e14fd935bd5ef508058d76dc6bcd0b11e1928f2f6fd915698ee1",
+                "bytecodeHash": "2738f4d1f37479f52003ad3bb53e20240b6d165588ef7c5b443ef14357636324",
+                "buildHash": "dbf364d008f6bfc3365ee018a4554d5992139cc8890e55ca40c6c2cef27d946f"
+              }
+            }
+          },
+          "HERCToken": {
+            "options": {},
+            "address": "0x5df27204602859b2daf8f5c0ed161b7187e8de62",
+            "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/herc/lastest-deployed/HERCToken.abi.json",
+            "validation": {
+              "contractName": "HERCToken",
+              "sourcePath": "",
+              "exportedSymbols": {
+                "HERCToken": [
+                  866
+                ],
+                "Int20": [
+                  251
+                ],
+                "Ownable": [
+                  358
+                ],
+                "SafeMath": [
+                  184
+                ]
+              },
+              "compiler": {
+                "name": "solc",
+                "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+              },
+              "updatedAt": "2018-12-30T03:41:10.900Z",
+              "validation": {
+                "hash": "431a1b582303d63c6cf6c2a50d5a8887bdac234eb25df2e1cb1b8afd24640d2d",
+                "deployDate": "2018-12-30T03:41:10.924Z",
+                "deployBy": "HERC Team",
+                "abiHash": "d2758fee2c4839ce939d1b00c20e7acea61940b64170c4a4ad2ace1a27ffe9ea",
+                "sourceSize": 11925,
+                "sourceLines": 153,
+                "sourceHash": "d9324491d01ef72cdae781a681b669e11a4932283499b5571b390482b8790b0e",
+                "bytecodeHash": "5435dfd5afb1cd6fec3b8325a6ea41afe608c061b464ab018b2721afc20f2d0b",
+                "buildHash": "541aa4747c26d6616ad02c100b27ec546b70bb00e6af7ac5862663512a2afa33"
+              }
+            }
+          }
+        },
+        "url": "http://localhost:7545"
+      }
     }
+  }
 }

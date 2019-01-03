@@ -205,7 +205,8 @@ class Blockchain {
     // utils ]
 
     async registerPuzzleAddress (address, params) {
-        await setPuzzleParams(address, params)
+        var paramsHash = keccak256(JSON.stringify(params))
+        await setPuzzleParams(address, paramsHash)
         return {
             address,
             params
