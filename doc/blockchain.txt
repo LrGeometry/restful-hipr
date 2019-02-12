@@ -1,0 +1,60 @@
+
+// web3:contract.methods [
+// PlayerScore [
+
+    Score[] public TopScores;
+    mapping(address=>int) public Scores;
+    function SetScore(int score) public
+    function GetTopScoresCount() view public returns (uint)
+
+// PlayerScore ]
+// PuzzleManager [
+
+    function CreatePuzzle(string metrics) public returns(uint)
+    function PushMetrics(uint puzzleId, string metrics) public returns(bool)
+    function CompareMetrics(uint puzzleId) public view returns(bool)
+    function GetPuzzleOriginalHash(uint puzzleId) public view returns(string)
+    function GetPuzzleMetrics(uint puzzleId) public view returns(bytes)
+
+// PuzzleManager ]
+// web3:contract.methods ]
+*/
+/*
+// API methods versions [
+// (done) method 0 - single address (dev) - current sign at server [
+
+    just sign web3 at server address (for Manu dev)
+    direct REST from Unity (w/o web3 client side)
+
+// (done) method 0 - single address (dev) - current sign at server ]
+// (disabled) method 1 - multiple address (old) - client/server, web3 client only sign [
+
+    client -> req method web service
+    web service -> accpet request, made transaction -> ask for sign client
+    client -> reply signed transaction to web service
+    web service run blockchain method and return status
+
+// (disabled) method 1 - multiple address (old) - client/server, web3 client only sign ]
+// (disabled) method 2 - multiple address (new) - web3 client js browser sign transaction and send to web service [
+
+    unity external call -> call hipr-client js
+    client web3 create & sign transaction
+    client send to blockchain
+    client send to web service verify transaction (hash)
+    web service verify & modify transaction
+
+// (disabled) method 2 - multiple address (new) - web3 client js browser sign transaction and send to web service ]
+// (done, unsecure) method 3 - hipr-browser metamask [
+
+    direct access to web3 via metamask
+
+// (done, unsecure) method 3 - hipr-browser metamask ]
+// (new, secure) method 4 - full secure [
+    
+    + herc-edge-login params register
+    + hipr-browser use metamask web3 and hipr-restful
+    + hipr-restful validator secure contract creation
+
+// (new, secure) method 4 - full secure ]
+
+// API methods versions ]

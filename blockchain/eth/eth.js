@@ -1,6 +1,8 @@
 const 
     fs = require('fs'),
-    Web3 = require('web3')
+    Web3 = require('web3'),
+    ethAssetValidator = require('./modules/eth-asset-validator'),
+    ethPlayerScore = require('./modules/eth-player-score')
 
 var _web3 = {}
 
@@ -8,6 +10,10 @@ var playerScore
 var puzzleManager
 
 var options
+
+var EthPlayerScore = new require('./modules/eth-player-score')
+var EthAssetValidator = new require('./modules/eth-asset-validator')
+var EthAssetValidatorSecure = new require('./modules/eth-asset-validator-secure')
 
 class Eth {
     constructor (options) {
@@ -17,6 +23,54 @@ class Eth {
         this.puzzleManager = null
 
         this.init(options)
+
+        // Modules
+
+        this.ethPlayerScore = this.lol(new EthPlayerScore())
+        this.ethAssetValidator = this.lol(new EthAssetValidator())
+        this.ethAssetValidatorSecure = this.lol(new EthAssetValidatorSecure())
+
+        // Player score
+
+        this.getTopScoresCount = this.ethPlayerScore.getTopScoresCount
+        this.getTopScores = this.ethPlayerScore.getTopScores
+        this.setScore = this.ethPlayerScore.setScore
+
+        this.getTopScoresSecureCount = this.ethPlayerScore.getTopScoresSecureCount
+        this.getTopScoresSecure = this.ethPlayerScore.getTopScoresSecure
+        this.setScoreSecure = this.ethPlayerScore.setScoreSecure
+
+        this.payoutSetup = this.ethPlayerScore.payoutSetup
+        this.payoutSetSeason = this.ethPlayerScore.payoutSetSeason
+        this.payoutToWinners = this.ethPlayerScore.payoutToWinners
+        this.isSeasonOver = this.ethPlayerScore.isSeasonOver
+        this.payoutInfo = this.ethPlayerScore.payoutInfo
+        this.wipeScores = this.ethPlayerScore.wipeScores
+
+        // Asset validator
+
+        this.createPuzzle = this.ethAssetValidator.createPuzzle
+        this.pushMetrics = this.ethAssetValidator.pushMetrics
+        this.compareMetrics = this.ethAssetValidator.compareMetrics
+        this.getPuzzleMetrics = this.ethAssetValidator.getPuzzleMetrics
+        this.getPuzzleOriginalMetrics = this.ethAssetValidator.getPuzzleOriginalMetrics
+
+        
+        this.getRandomPuzzleStringByType = this.ethAssetValidatorSecure.getRandomPuzzleStringByType
+        this.registerPuzzleAddress = this.ethAssetValidatorSecure.registerPuzzleAddress
+        this.createPuzzleSecure = this.ethAssetValidatorSecure.createPuzzleSecure
+        this.pushSecureMetrics = this.ethAssetValidatorSecure.pushSecureMetrics
+        this.compareSecureMetrics = this.ethAssetValidatorSecure.compareSecureMetrics
+    }
+
+    lol (o) {
+        let web3 = this.defaultWeb3()
+
+        o.options = options
+        o.puzzleManager = this.puzzleManager
+        o.playerScore = this.playerScore
+
+        return o
     }
 
     // web3:init [
@@ -103,80 +157,6 @@ class Eth {
 
     // web3:contract ]
     // web3 core ]
-    // utils [
-
-
-    
-    // utils ]
-    // api [
-    // PlayerScore [
-
-    async getTopScoresCount () {
-        try {
-            let topScoresCount = await this.playerScore.methods.GetTopScoresCount().call({
-    //            from,
-    //            gas,
-    //            gasPrice
-            })
-            return {
-                topScoresCount: parseInt(topScoresCount)
-            }
-        }
-        catch (e) {
-            console.log('getTopScoresCount error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-    
-    async getTopScores (index, count) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PlayerScore.options.from
-
-            let topScores = []
-            for (; count; count--, index++) {
-                let score = await this.playerScore.methods.TopScores(index).call()
-                topScores.push(score)
-            }
-            return {
-                topScores
-            }
-        }
-        catch (e) {
-            console.log('getTopScores error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async setScore (score) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PlayerScore.options.from
-            let gas = await this.playerScore.methods.SetScore(score).estimateGas()
-            let result = await this.playerScore.methods.SetScore(score).send({
-                from, 
-                gas //: 4712388
-            })
-            return {
-                result
-            }
-        }
-        catch (e) {
-            console.log('setScore error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    // PlayerScore ]
-    // PuzzleManager [
-
-    // web3 events 1.1 createPuzzle [
 
     async getEventForUniqueId (uniqueId) {
         let contract = this.puzzleManager
@@ -207,193 +187,6 @@ class Eth {
 
         return event
     }
-
-    // web3 events 1.1 createPuzzle ]
-    // X.1 SECURE PUZZLE [
-
-    async createPuzzleSecure (address, puzzleType, plainTextMetrics, metricsHash, checkOwner) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let uniqueId = Math.random().toString(36)+Math.random().toString(36);
-
-            let gas = await this.puzzleManager.methods.CreateSecurePuzzle(address, puzzleType, plainTextMetrics, metricsHash, checkOwner, uniqueId).estimateGas()
-            let result = await this.puzzleManager.methods.CreateSecurePuzzle(address, puzzleType, plainTextMetrics, metricsHash, checkOwner, uniqueId).send({
-                from,
-                gas
-            })
-            let event = await this.getEventForUniqueId(uniqueId)
-            var puzzleId = event.returnValues.puzzleId
-            return {
-                puzzleId: parseInt(puzzleId)
-            }
-        }
-        catch (e) {
-            console.log('createPuzzleSecure error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async pushSecureMetrics (puzzleId, metrics) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.pushSecureMetrics(puzzleId, metrics).estimateGas()
-            let result = await this.puzzleManager.methods.pushSecureMetrics(puzzleId, metrics).send({
-                from, 
-                gas
-            })
-            return {
-                result
-            }
-        }
-        catch (e) {
-            console.log('pushSecureMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async compareSecureMetrics (puzzleId, byOwner) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.compareSecureMetrics(puzzleId, byOwner).estimateGas()
-            let result = await this.puzzleManager.methods.compareSecureMetrics(puzzleId, byOwner).call({
-                from, 
-                gas
-            })
-            return {
-                result
-            }
-        }
-        catch (e) {
-            console.log('compareMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    // X.1 SECURE PUZZLE ]
-    // X.2 UNSECURE PUZZLE [
-
-    async createPuzzle (metrics) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let uniqueId = Math.random().toString(36)+Math.random().toString(36);
-
-            let gas = await this.puzzleManager.methods.CreatePuzzle(metrics, uniqueId).estimateGas()
-            let result = await this.puzzleManager.methods.CreatePuzzle(metrics, uniqueId).send({
-                from,
-                gas
-            })
-            let event = await this.getEventForUniqueId(uniqueId)
-            var puzzleId = event.returnValues.puzzleId
-            return {
-                puzzleId: parseInt(puzzleId)
-            }
-        }
-        catch (e) {
-            console.log('createPuzzle error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async pushMetrics (puzzleId, metrics) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.PushMetrics(puzzleId, metrics).estimateGas()
-            let result = await this.puzzleManager.methods.PushMetrics(puzzleId, metrics).send({
-                from, 
-                gas
-            })
-            return {
-                result
-            }
-        }
-        catch (e) {
-            console.log('pushMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async compareMetrics (puzzleId) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.CompareMetrics(puzzleId).estimateGas()
-            let result = await this.puzzleManager.methods.CompareMetrics(puzzleId).call({
-                from, 
-                gas
-            })
-            return {
-                result
-            }
-        }
-        catch (e) {
-            console.log('compareMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    async getPuzzleOriginalMetrics (puzzleId) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.GetPuzzleOriginalMetrics(puzzleId).estimateGas()
-            let metrics = await this.puzzleManager.methods.GetPuzzleOriginalMetrics(puzzleId).call({
-                from, 
-                gas
-            })
-            return {
-                metrics
-            }
-        }
-        catch (e) {
-            console.log('getPuzzleOriginalMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-
-    // X.2 UNSECURE PUZZLE ]
-
-    async getPuzzleMetrics (puzzleId) {
-        try {
-            let web3 = this.defaultWeb3()
-            let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.GetPuzzleMetrics(puzzleId).estimateGas()
-            let metrics = await this.puzzleManager.methods.GetPuzzleMetrics(puzzleId).call({
-                from, 
-                gas
-            })
-            return {
-                metrics
-            }
-        }
-        catch (e) {
-            console.log('getPuzzleMetrics error', e.message)
-            return {
-                err: e.message
-            }
-        }
-    }
-    
-    // PuzzleManager ]
-    // api ]
 }
 
 module.exports = Eth

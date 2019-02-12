@@ -51,38 +51,43 @@
       "ganache": {
         "contracts": {
           "PlayerScore": {
-            "options": {},
-            "address": "0x4d4d8b58f5dc278e828c625cfe34cc8891372a50",
+            "options": {
+              "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
+            },
+            "address": "0x3530aeb8e3581922ae668c6d7f236959bf7bfa78",
             "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/hipr/lastest-deployed/PlayerScore.abi.json",
             "validation": {
               "contractName": "PlayerScore",
               "sourcePath": "",
               "exportedSymbols": {
                 "PlayerScore": [
-                  453
+                  577
                 ]
               },
               "compiler": {
                 "name": "solc",
                 "version": "0.4.24+commit.e67f0147.Emscripten.clang"
               },
-              "updatedAt": "2019-01-01T18:54:24.806Z",
+              "updatedAt": "2019-02-12T18:24:51.174Z",
               "validation": {
-                "hash": "8856664a457664239e4fcec3b7c5dfe86661a77675f67b916ebe49426af27214",
-                "deployDate": "2019-01-01T18:54:25.815Z",
+                "hash": "8a8da2ed49f1786eb77510e8fdc82fe18f54f6e5183a6eeba2ee01326868df76",
+                "deployDate": "2019-02-12T18:24:52.219Z",
                 "deployBy": "HERC Team",
-                "abiHash": "9987aad8a2da4eabaae74910edbc9f7c7edbcb491b0b07362dda5341bb38c104",
-                "sourceSize": 18070,
-                "sourceLines": 218,
-                "sourceHash": "3fd91aa15724539f7ac899bf7796b9042a3ce42a31b5e99e3c4bbd72011962f7",
-                "bytecodeHash": "a890b66e2cfb2f0655f4e48cef249c944a0bd6f6404f90e1def54c89e7d56917",
-                "buildHash": "5f65fb2cb2bb20f0744d07c8801aefdd0be28af930ace0554b5f1a3f66e4c047"
+                "abiHash": "ff5a714a2f73b1fc4ebe7780615b879241edb14c586f10ad8c20e9d1246a5b95",
+                "sourceSize": 20179,
+                "sourceLines": 236,
+                "sourceHash": "65bc13ceeceb93a5ca876ca0ef4d3e2261820ba9c2a99595a7ebcdea5d640297",
+                "bytecodeHash": "3dfb8a819fe600963ef4da4a4863e3c0804be2075aa4bf41065d6c47031dd4b1",
+                "buildHash": "1c9d7bb700cc53c07a0cacb323b7e7ece382d0d56725ebf60b23b612f39a86e4"
               }
-            }
+            },
+            "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
           },
           "PuzzleManager": {
-            "options": {},
-            "address": "0xcbfc28d3c878090d2402bad6fd915ac17377e935",
+            "options": {
+              "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
+            },
+            "address": "0x9d207c6384f2154af700a6f4bc95eb3bb10c52f0",
             "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/hipr/lastest-deployed/PuzzleManager.abi.json",
             "validation": {
               "contractName": "PuzzleManager",
@@ -96,23 +101,24 @@
                 "name": "solc",
                 "version": "0.4.24+commit.e67f0147.Emscripten.clang"
               },
-              "updatedAt": "2019-01-01T18:54:24.813Z",
+              "updatedAt": "2019-02-12T18:24:51.167Z",
               "validation": {
-                "hash": "a941a14372d705281fbb40253cab0dd6c92d0a7ab9fece27e5db4bbd99b89331",
-                "deployDate": "2019-01-01T18:54:26.683Z",
+                "hash": "de66f58d7d73128ce3e39c4c0f4fb086bc720b23bceffb6ad204b1d8af7689a9",
+                "deployDate": "2019-02-12T18:24:53.142Z",
                 "deployBy": "HERC Team",
                 "abiHash": "adbc4184e514c05b0519c1736e80fa0dfa7cde1a22e399f1bd778be7805634f1",
                 "sourceSize": 7920,
                 "sourceLines": 137,
                 "sourceHash": "eaf972332db6e14fd935bd5ef508058d76dc6bcd0b11e1928f2f6fd915698ee1",
                 "bytecodeHash": "2738f4d1f37479f52003ad3bb53e20240b6d165588ef7c5b443ef14357636324",
-                "buildHash": "dbf364d008f6bfc3365ee018a4554d5992139cc8890e55ca40c6c2cef27d946f"
+                "buildHash": "5d069be827b4e58ceb0bf93cb6eb68210aee1937f95b0febe633125b00c896d5"
               }
-            }
+            },
+            "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
           },
           "HERCToken": {
             "options": {},
-            "address": "0x5df27204602859b2daf8f5c0ed161b7187e8de62",
+            "address": "0xf481e3694434a3f7e33d2545205d4dea7ba2c94b",
             "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/ganache/herc/lastest-deployed/HERCToken.abi.json",
             "validation": {
               "contractName": "HERCToken",
@@ -135,17 +141,17 @@
                 "name": "solc",
                 "version": "0.4.24+commit.e67f0147.Emscripten.clang"
               },
-              "updatedAt": "2018-12-30T03:41:10.900Z",
+              "updatedAt": "2019-01-31T19:25:44.298Z",
               "validation": {
-                "hash": "431a1b582303d63c6cf6c2a50d5a8887bdac234eb25df2e1cb1b8afd24640d2d",
-                "deployDate": "2018-12-30T03:41:10.924Z",
+                "hash": "31d179a34c62677652cc91a18c8e5e97109b1d0969b2835771ecf2ccb227c44b",
+                "deployDate": "2019-01-31T19:25:45.211Z",
                 "deployBy": "HERC Team",
                 "abiHash": "d2758fee2c4839ce939d1b00c20e7acea61940b64170c4a4ad2ace1a27ffe9ea",
-                "sourceSize": 11925,
+                "sourceSize": 11958,
                 "sourceLines": 153,
-                "sourceHash": "d9324491d01ef72cdae781a681b669e11a4932283499b5571b390482b8790b0e",
+                "sourceHash": "028883e390f1b17b50a98077d0934ea42b020bbb0ce2586e0f77b65425b84619",
                 "bytecodeHash": "5435dfd5afb1cd6fec3b8325a6ea41afe608c061b464ab018b2721afc20f2d0b",
-                "buildHash": "541aa4747c26d6616ad02c100b27ec546b70bb00e6af7ac5862663512a2afa33"
+                "buildHash": "f3333df059d0b25e5d507df8fdea502d509fdce0ae7748d3f2d75102eac5acdc"
               }
             }
           }
