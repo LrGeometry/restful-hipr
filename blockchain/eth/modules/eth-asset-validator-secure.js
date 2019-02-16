@@ -27,8 +27,8 @@ class EthAssetValidatorSecure {
     async pushSecureMetrics (puzzleId, metrics) {
         try {
             let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.pushSecureMetrics(puzzleId, metrics).estimateGas()
-            let result = await this.puzzleManager.methods.pushSecureMetrics(puzzleId, metrics).send({
+            let gas = await this.puzzleManager.methods.PushSecureMetrics(puzzleId, metrics).estimateGas()
+            let result = await this.puzzleManager.methods.PushSecureMetrics(puzzleId, metrics).send({
                 from, 
                 gas
             })
@@ -44,11 +44,11 @@ class EthAssetValidatorSecure {
         }
     }
 
-    async compareSecureMetrics (puzzleId, byOwner) {
+    async compareSecureMetrics (puzzleId, address) {
         try {
             let from = this.options.contracts.PuzzleManager.options.from
-            let gas = await this.puzzleManager.methods.compareSecureMetrics(puzzleId, byOwner).estimateGas()
-            let result = await this.puzzleManager.methods.compareSecureMetrics(puzzleId, byOwner).call({
+            let gas = await this.puzzleManager.methods.CompareSecureMetrics(puzzleId, address).estimateGas()
+            let result = await this.puzzleManager.methods.CompareSecureMetrics(puzzleId, address).call({
                 from, 
                 gas
             })

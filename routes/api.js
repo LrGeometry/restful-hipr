@@ -155,11 +155,12 @@ router.post('/createPuzzleSecure/:address/:puzzleType/:plainTextMetrics/:params'
 });
 
 router.post('/validatePuzzleSecure/:puzzleId/:address/:score/:resultHash/:movesSet', async (req, res, next) => {
+    var puzzleId = req.params.puzzleId
     var address = req.params.address
     var score = req.params.score
     var resultHash = req.params.resultHash
     var movesSet = req.params.movesSet
-        let json = await new Promise(async resolve => 
+    let json = await new Promise(async resolve => 
         resolve(await blockchain.validatePuzzleSecure(puzzleId, address, score, resultHash, movesSet)));
     res.json(json);
 });

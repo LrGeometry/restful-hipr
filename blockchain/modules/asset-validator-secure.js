@@ -1,7 +1,12 @@
 const
-    keccak256 = require('js-sha3').keccak256
+    keccak256 = require('js-sha3').keccak256,
+    Puzzle = require('./puzzle')
 
 class AssetValidator {
+
+    constructor (options) {
+        this.game = new Puzzle(options)
+    }
 
     // utils [
 
@@ -36,108 +41,7 @@ class AssetValidator {
     }
     
     // utils ]
-    // game [
 
-    dumpPuzzle(field) {
-        var res = []
-        console.log('dump puzzle:')
-        for (var x = 0; x < field.length; x++) {
-            var s = ''
-            for (var y = 0; y < field[x].length; y++) {
-                s += field[x][y] + ' '
-                res.push(field[x][y])
-            }
-            console.log(s)
-        }
-        console.log('puzzle.field', JSON.stringify(res))
-        return res
-    }
-
-    generatePuzzle (puzzleType, initString) {
-        var maxX = 3
-        var maxY = 3
-
-        if (puzzleType == '15') {
-
-            var field = []
-            for (var i = 0; i < maxY; i++) {
-                field[i] = []
-                for (var j = 0; j < maxX; j++) {
-                    var n = i * maxX + j
-                    field[i].push(n)
-                }
-            }
-
-            this.dumpPuzzle(field)
-
-            var moves = []
-            var movesCount = 30
-
-            var emptyPosition = {
-                x: 0,
-                y: 0
-            }
-
-//            var 
-            function getMoves(p) {
-                var m = {
-                    'L': {x:-1, y:0},
-                    'R': {x:1, y:0},
-                    'T': {x:0, y:-1},
-                    'B': {x:0, y:1}
-                }
-                if (p.x == 0) delete m['L']
-                if (p.x == maxX - 1) delete m['R']
-                if (p.y == 0) delete m['T']
-                if (p.y == maxY - 1) delete m['B']
-
-                var a = []
-
-                for (var k in m)
-                    a.push(m[k])
-                return a
-            }
-
-            for (var i = 0; i < movesCount; i++) {
-                var p = emptyPosition
-
-                var m = getMoves(p)
-
-                console.log('p', p)
-                console.log('m', m)
-
-                var index = Math.round(Math.random() * (m.length - 1))
-
-                console.log('index', index)
-
-                var dir = m[index]
-
-                console.log('dir', dir)
-
-                var p1 = {x: p.x + dir.x, y: p.y + dir.y}
-
-                console.log(p1)
-
-                // swap
-                var a = field[p.x][p.y]
-                var b = field[p1.x][p1.y]
-                field[p.x][p.y] = b
-                field[p1.x][p1.y] = a
-
-                moves.push([b, p1])
-
-                emptyPosition = p1
-            }
-
-            console.log('moves', JSON.stringify(moves))
-            
-            var puzzleField = this.dumpPuzzle(field)
-        }
-
-        return puzzleField
-    }
-
-    // game ]
 
     async registerPuzzleAddress (address, params) {
         var paramsHash = keccak256(JSON.stringify(params))
@@ -169,17 +73,59 @@ class AssetValidator {
         metricsHash = '0x'+metricsHash //web3.fromAscii(metricsHash)
         var puzzle = await this.activeChain.createPuzzleSecure(address, puzzleType, plainTextMetrics, metricsHash, params, checkOwner) //, uniqueId)
         if (!puzzle.err) {
-            puzzle.field = this.generatePuzzle("15")//puzzleType)
+            puzzle.hash = metricsHash
+            puzzle.field = this.game.generatePuzzle("15")//puzzleType)
+
+            this.db.setGamePuzzle({
+                puzzleId: puzzle.puzzleId,
+                params: JSON.stringify(puzzle.field)
+            })
         }
         return puzzle
     }
 
-    async pushSecureMetrics (puzzleId, metricsHash) {
+    async validatePuzzleSecure (puzzleId, address, score, resultHash, movesSet) {
+        var puzzle = await this.db.getGamePuzzle(puzzleId)
+        if (!puzzle || puzzle.err)
+            return puzzle
+
+        var field = JSON.parse(puzzle.params)
+        var moves = JSON.parse(`${movesSet}`).moveset
+        score = parseInt(score)
+
+        if (!this.game.verifyPuzzle(field, moves, score))
+            return {
+                err: 'bad params'
+            }
+
+        var res = await this.pushSecureMetrics(puzzleId, resultHash)
+        if (res.err) {
+            return res
+        }
+
+        res = await this.compareSecureMetrics(puzzleId, address)
+        if (res.err) {
+            return res
+        }
+
+        if (!res.result) {
+            return false
+        }
+
+        res = await this.setScoreSecure(address, score)
+
+        return {
+            //res
+            result: true
+        }
+    }
+
+    async pushSecureMetrics (puzzleId, metrics) {
         return await this.activeChain.pushSecureMetrics(puzzleId, metrics)
     }
     
-    async compareSecureMetrics (puzzleId, byOwner) {
-        return await this.activeChain.compareSecureMetrics(puzzleId, byOwner)
+    async compareSecureMetrics (puzzleId, address) {
+        return await this.activeChain.compareSecureMetrics(puzzleId, address)
     }
 }
 

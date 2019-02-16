@@ -81,8 +81,9 @@ class Blockchain {
         this.pushSecureMetrics = this.assetValidatorSecure.pushSecureMetrics
         this.compareSecureMetrics = this.assetValidatorSecure.compareSecureMetrics
 
-        this.dumpPuzzle = this.assetValidatorSecure.dumpPuzzle
-        this.generatePuzzle = this.assetValidatorSecure.generatePuzzle
+        this.validatePuzzleSecure = this.assetValidatorSecure.validatePuzzleSecure
+
+        this.game = this.assetValidatorSecure.game
     }
 
     lol (o) {

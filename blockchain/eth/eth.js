@@ -1,9 +1,10 @@
 const 
     fs = require('fs'),
-    Web3 = require('web3'),
-    ethAssetValidator = require('./modules/eth-asset-validator'),
-    ethPlayerScore = require('./modules/eth-player-score')
-
+    Web3 = require('web3')
+    
+require('dotenv').config()
+const HDWalletProvider = require('truffle-hdwallet-provider');
+    
 var _web3 = {}
 
 var playerScore
@@ -78,7 +79,16 @@ class Eth {
     getWeb3 (url) {
         let web3 = _web3[url]
         if (web3 == undefined) {
-            web3 = new Web3(new Web3.providers.HttpProvider(url))
+            var provider
+            if (options.HDWallet) {
+                provider = new HDWalletProvider(process.env.MNEMONIC, url)
+                console.log('URL:', url)
+                console.log('deploy_account:', provider.addresses[0])
+            }
+            else {
+                provider = new Web3.providers.HttpProvider(url)
+            }
+            web3 = new Web3(provider)
             _web3[url] = web3
             this.initWeb3(web3)
         }
