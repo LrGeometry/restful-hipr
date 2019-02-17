@@ -166,7 +166,7 @@
               "from": "0xCF2fd0cDC0FB56569Cd571e377d9261335aAc15e"
             },
             "address": "0xf6cab195c1119f13b7ac85ceeb04b58968714ad0",
-            "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/main/hipr/lastest-deployed/PlayerScore.abi.json",
+            "abiPath": "contracts/PlayerScore.abi.json",
             "validation": {
               "contractName": "PlayerScore",
               "sourcePath": "",
@@ -198,7 +198,7 @@
               "from": "0xCF2fd0cDC0FB56569Cd571e377d9261335aAc15e"
             },
             "address": "0x48529C426046d06224d2e3D88D7D4F7C821a01AA",
-            "abiPath": "/home/vv/src/herc2/eth-scripts/contracts-deploy/main/hipr/lastest-deployed/PuzzleManager.abi.json",
+            "abiPath": "contracts/PuzzleManager.abi.json",
             "validation": {
               "contractName": "PuzzleManager",
               "sourcePath": "",
