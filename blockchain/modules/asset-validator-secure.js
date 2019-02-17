@@ -65,7 +65,7 @@ class AssetValidator {
         else {
             let puzzleString = this.getRandomPuzzleStringByType(puzzleType)
             let params = await this.db.getPuzzleParams(address)
-            metrics = `${puzzleString}-${params.params}`
+            metrics = `${puzzleString}-${params ? params.params : 'null-params'}`
             metricsHash = keccak256(metrics)
             console.log(`creating secure puzzle metrics='${metrics}' hash=${metricsHash}`)
             checkOwner = true
