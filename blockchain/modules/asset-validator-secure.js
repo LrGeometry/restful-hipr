@@ -104,19 +104,24 @@ class AssetValidator {
         }
 
         res = await this.compareSecureMetrics(puzzleId, address)
-        if (res.err) {
-            return res
-        }
+        if (res.err) 
+            return {
+                result: false,
+                err: res.err
+            }
 
-        if (!res) {
-            return false
-        }
+        if (!res) 
+            return {
+                result: false
+            }
 
         res = await this.setScoreSecure(address, score)
 
-        if (res.err) {
-            return res
-        }
+        if (res.err) 
+            return {
+                result: false,
+                err: res.err
+            }
 
         return {
             //res
