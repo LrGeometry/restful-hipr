@@ -53,6 +53,12 @@ class Database {
 
     async setGamePuzzle (puzzle) {
         try {
+            var puzzleId = puzzle.puzzleId
+            
+//            var a = await GamePuzzle.findOne({puzzleId})
+            await GamePuzzle.deleteMany({puzzleId})
+//            var b = await GamePuzzle.findOne({puzzleId})
+
             var gamePuzzle = new GamePuzzle(puzzle)
             await gamePuzzle.save()
         }
@@ -63,7 +69,7 @@ class Database {
 
     async getGamePuzzle (puzzleId) {
         try {
-            var gamePuzzle = GamePuzzle.findOne({puzzleId})
+            var gamePuzzle = await GamePuzzle.findOne({puzzleId})
             return gamePuzzle
         }
         catch (e) {

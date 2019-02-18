@@ -181,16 +181,20 @@ class Eth {
     
         let event = await new Promise(async (resolve, reject) => {
             contract.getPastEvents(eventName, options, (error, results) => {
-                if (error)
+                if (error) {
+                    console.log('getPastEvents error', JSON.stringify(error))
                     return reject(error)
+                }
 
                 for (var i = 0; i < results.length; i++) {
                     var res = results[i]
+                    console.log('getPastEvents res', JSON.stringify(res))
                     this.cachedEvents[res.returnValues.uniqueId] = res
                 }
 
                 let event = this.cachedEvents[uniqueId]
                 
+                console.log('getPastEvents event uniqueId', uniqueId, JSON.stringify(event))
                 resolve(event)
             })
         })

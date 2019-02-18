@@ -108,15 +108,20 @@ class AssetValidator {
             return res
         }
 
-        if (!res.result) {
+        if (!res) {
             return false
         }
 
         res = await this.setScoreSecure(address, score)
 
+        if (res.err) {
+            return res
+        }
+
         return {
             //res
-            result: true
+            result: true,
+            tx 
         }
     }
 
