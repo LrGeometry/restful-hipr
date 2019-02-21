@@ -154,6 +154,7 @@ class EthPlayerScore {
 //            function SetScoreSecureSign(uint score, string metrics, uint8 v, bytes32 r, bytes32 s) 
 */
             let from = this.options.contracts.PlayerScore.options.from
+            let gas2 = await this.playerScore.methods.SetScore(score).estimateGas()
             let gas1 = await m.SetHERCTokenAddress(address).estimateGas()
             let gas = await m.SetScoreSecureSign(address, score, metrics, v, r, s).estimateGas()
             let result = await m.SetScoreSecureSign(address, score, metrics, v, r, s).send({

@@ -85,11 +85,16 @@ class Eth {
         if (web3 == undefined) {
             var provider
             if (options.HDWallet) {
-                provider = new HDWalletProvider(process.env[options.HDWallet], url)
-                console.log('URL:', url)
-                console.log('deploy_account:', provider.addresses[0])
+                if (options.HDWalletSignOnly) {
+                    this.hd = {}
+                    this.hd.provider = new HDWalletProvider(process.env[options.HDWallet], url)
+                    this.hd.web3 = new Web3(this.hd.provider)
+                    console.log('URL:', url)
+                    console.log('deploy_account:', this.hd.provider.addresses[0])
+                }
             }
-            else {
+
+            if (!provider) {
                 provider = new Web3.providers.HttpProvider(url)
             }
             web3 = new Web3(provider)
