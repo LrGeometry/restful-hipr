@@ -59,6 +59,9 @@ class Blockchain {
         this.getTopScoresSecure = this.playerScore.getTopScoresSecure
         this.setScoreSecure = this.playerScore.setScoreSecure
 
+        this.signAddressScore = this.playerScore.signAddressScore
+        this.setScoreSecureSign = this.playerScore.setScoreSecureSign
+
         this.payoutSetup = this.playerScore.payoutSetup
         this.payoutSetSeason = this.playerScore.payoutSetSeason
         this.payoutToWinners = this.playerScore.payoutToWinners
@@ -71,10 +74,10 @@ class Blockchain {
         this.createPuzzle = this.assetValidator.createPuzzle
         this.pushMetrics = this.assetValidator.pushMetrics
         this.compareMetrics = this.assetValidator.compareMetrics
+        this.validateMetrics = this.assetValidator.validateMetrics
         this.getPuzzleMetrics = this.assetValidator.getPuzzleMetrics
         this.getPuzzleOriginalMetrics = this.assetValidator.getPuzzleOriginalMetrics
 
-        
         this.getRandomPuzzleStringByType = this.assetValidatorSecure.getRandomPuzzleStringByType
         this.registerPuzzleAddress = this.assetValidatorSecure.registerPuzzleAddress
         this.createPuzzleSecure = this.assetValidatorSecure.createPuzzleSecure
@@ -82,6 +85,7 @@ class Blockchain {
         this.compareSecureMetrics = this.assetValidatorSecure.compareSecureMetrics
 
         this.validatePuzzleSecure = this.assetValidatorSecure.validatePuzzleSecure
+        this.validatePuzzleSecureSign = this.assetValidatorSecure.validatePuzzleSecureSign
 
         this.game = this.assetValidatorSecure.game
     }

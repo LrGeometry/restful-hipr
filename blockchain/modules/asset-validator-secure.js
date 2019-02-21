@@ -52,8 +52,8 @@ class AssetValidator {
         }
     }
 
-    async createPuzzleSecure (address, puzzleType, plainTextMetrics, params) {
-//        let uniqueId = `${Math.random()}-${new Date().getTime()}`
+    async puzzleCreateConfig (address, puzzleType, plainTextMetrics, params) {
+        //        let uniqueId = `${Math.random()}-${new Date().getTime()}`
         let metrics
         let metricsHash
         let checkOwner
@@ -71,10 +71,22 @@ class AssetValidator {
             checkOwner = true
         }
         metricsHash = '0x'+metricsHash //web3.fromAscii(metricsHash)
-        var puzzle = await this.activeChain.createPuzzleSecure(address, puzzleType, plainTextMetrics, metricsHash, params, checkOwner) //, uniqueId)
+        var puzzleField = this.game.generatePuzzle("15")//puzzleType)
+        return {
+            plainTextMetrics,
+            metricsHash,
+            params,
+            puzzleField,
+            checkOwner
+        }
+    }
+
+    async createPuzzleSecure (address, puzzleType, plainTextMetrics, params) {
+        var config = this.puzzleCreateConfig(address, puzzleType, plainTextMetrics, params)
+        var puzzle = await this.activeChain.createPuzzleSecure(address, puzzleType, config.plainTextMetrics, config.metricsHash, config.params, config.checkOwner) //, uniqueId)
         if (!puzzle.err) {
-            puzzle.hash = metricsHash
-            puzzle.field = this.game.generatePuzzle("15")//puzzleType)
+            puzzle.hash = config.metricsHash
+            puzzle.field = config.puzzleField
 
             this.db.setGamePuzzle({
                 puzzleId: puzzle.puzzleId,
@@ -128,6 +140,10 @@ class AssetValidator {
             result: true,
             tx 
         }
+    }
+
+    
+    async validatePuzzleSecureSign (puzzleId, address, score, resultHash, movesSet) {
     }
 
     async pushSecureMetrics (puzzleId, metrics) {

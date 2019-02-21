@@ -122,6 +122,55 @@ class EthPlayerScore {
         }
     }
     
+    async signAddressScore (address, playerAddress, score, metrics) {
+        var msg = `${playerAddress}${score}${metrics}`
+        var web3 = this.defaultWeb3()
+        msg = web3.utils.utf8ToHex(msg)
+/*
+        web3.eth.sign("Hello world", "0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe")
+        .then((s)=>{
+            console.log(s)
+        });
+        return
+*/
+        var sig = await web3.eth.accounts.sign(msg, address)
+
+//        var h = web3.utils.sha3(msg)
+//        var s = await web3.eth.sign(h, address)
+//        var sig = s.slice(2)
+
+        return sig
+    }
+
+    async setScoreSecureSign (address, score, metrics, v, r, s) {
+        try {
+            var m = this.playerScore.methods
+
+            v = parseInt(v, 16)
+/*            var r = `0x${sig.slice(0, 64)}`
+            var s = `0x${sig.slice(64, 128)}`
+            var v = web3.toDecimal(sig.slice(128, 130)) + 27
+        
+//            function SetScoreSecureSign(uint score, string metrics, uint8 v, bytes32 r, bytes32 s) 
+*/
+            let from = this.options.contracts.PlayerScore.options.from
+            let gas1 = await m.SetHERCTokenAddress(address).estimateGas()
+            let gas = await m.SetScoreSecureSign(address, score, metrics, v, r, s).estimateGas()
+            let result = await m.SetScoreSecureSign(address, score, metrics, v, r, s).send({
+                from, 
+                gas: 4712388
+            })
+            return {
+                result
+            }
+        }
+        catch (e) {
+            console.log('setScoreSecureSign error', e.message)
+            return {
+                err: e.message
+            }
+        }
+    }
     
     // SECURE ]
 

@@ -41,6 +41,9 @@ class Eth {
         this.getTopScoresSecure = this.ethPlayerScore.getTopScoresSecure
         this.setScoreSecure = this.ethPlayerScore.setScoreSecure
 
+        this.signAddressScore = this.ethPlayerScore.signAddressScore
+        this.setScoreSecureSign = this.ethPlayerScore.setScoreSecureSign
+
         this.payoutSetup = this.ethPlayerScore.payoutSetup
         this.payoutSetSeason = this.ethPlayerScore.payoutSetSeason
         this.payoutToWinners = this.ethPlayerScore.payoutToWinners
@@ -53,6 +56,7 @@ class Eth {
         this.createPuzzle = this.ethAssetValidator.createPuzzle
         this.pushMetrics = this.ethAssetValidator.pushMetrics
         this.compareMetrics = this.ethAssetValidator.compareMetrics
+        this.validateMetrics = this.ethAssetValidator.validateMetrics
         this.getPuzzleMetrics = this.ethAssetValidator.getPuzzleMetrics
         this.getPuzzleOriginalMetrics = this.ethAssetValidator.getPuzzleOriginalMetrics
 
@@ -81,7 +85,7 @@ class Eth {
         if (web3 == undefined) {
             var provider
             if (options.HDWallet) {
-                provider = new HDWalletProvider(process.env.MNEMONIC, url)
+                provider = new HDWalletProvider(process.env[options.HDWallet], url)
                 console.log('URL:', url)
                 console.log('deploy_account:', provider.addresses[0])
             }
@@ -114,6 +118,20 @@ class Eth {
     }
 
     // web3:init ]
+    // web3:api [
+
+    getAddress (index) {
+        var web3 = this.defaultWeb3()
+        if (options.HDWallet) {
+            var provider = new HDWalletProvider(process.env[options.HDWallet], options.url, index)
+            return provider.addresses[0]
+        }
+        else {
+            return web3.eth.personal.getAccounts()[index]
+        }
+    }
+
+    // web3:api ]
     // web3:contract [
 
     contractInit (web3, options) {

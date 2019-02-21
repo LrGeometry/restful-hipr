@@ -159,7 +159,7 @@
         "url": "http://localhost:7545"
       },
       "main": {
-        "HDWallet": true,
+        "HDWallet": "MNEMONIC",
         "contracts": {
           "PlayerScore": {
             "options": {
