@@ -88,6 +88,12 @@ class Eth {
                 if (options.HDWalletSignOnly) {
                     this.hd = {}
                     this.hd.provider = new HDWalletProvider(process.env[options.HDWallet], url)
+                    this.hd.accounts = []
+                    for (var w in this.hd.provider.wallets) {
+                        var wallet = this.hd.provider.wallets[w]
+                        var privkey = wallet.getPrivateKey()
+                        this.hd.accounts.push({account: w, privkey: privkey.toString('hex')})
+                    }
                     this.hd.web3 = new Web3(this.hd.provider)
                     console.log('URL:', url)
                     console.log('deploy_account:', this.hd.provider.addresses[0])
@@ -134,6 +140,13 @@ class Eth {
         else {
             return web3.eth.personal.getAccounts()[index]
         }
+    }
+
+    getHDAccount (index) {
+        if (options.HDWallet) {
+            return this.hd.accounts[index]
+        }
+        return null
     }
 
     // web3:api ]

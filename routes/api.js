@@ -165,19 +165,18 @@ router.post('/validatePuzzleSecure/:puzzleId/:address/:score/:resultHash/:movesS
     res.json(json);
 });
 
-router.post('/validatePuzzleSecureSign/:puzzleId/:address/:score/:resultHash/:movesSet', async (req, res, next) => {
+router.post('/validatePuzzleSecureSign/:puzzleId/:address/:score/:metrics/:movesSet', async (req, res, next) => {
     let puzzleId = req.params.puzzleId
     let address = req.params.address
     let score = req.params.score
-    let resultHash = req.params.resultHash
+    let metrics = req.params.metrics
     var movesSet = req.params.movesSet
     
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.validatePuzzleSecureSign(puzzleId, address, score, resultHash, movesSet)));
+        resolve(await blockchain.validatePuzzleSecureSign(puzzleId, address, score, metrics, movesSet)));
+
     res.json(json);
 });
-
-async  {
 
 /**byOwner
  * @name api/pushSecureMetrbyOwnerics
