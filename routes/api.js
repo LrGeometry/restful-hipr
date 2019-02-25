@@ -36,6 +36,34 @@ function ipfsGetFile(req, res, next) {
 }
 // init ]
 
+// api:service [
+
+var startDate = new Date()
+
+router.get('/status', async (req, res, next) => {
+    var status = {}
+
+    var nowDate = new Date()
+    var eth = blockchain.eth
+
+    status.startDate = startDate.toISOString()
+    status.nowDate = nowDate.toISOString()
+    status.chain = options.blockchain.activeChain
+    status.eth = {
+        HDWallet: eth.options.HDWallet,
+        eth_network: 'net',
+        playerScore: eth.options.contracts.PlayerScore,
+        assetValidator: eth.options.contracts.PuzzleManager
+    }
+
+    let json = {
+        status
+    }
+    res.json(json);
+});
+    
+
+// api:service ]
 // api:PlayerScore [
     
 /**
@@ -139,7 +167,7 @@ router.get('/ipfsRequest/:address/:ipfsHash/:ipfsFilePath', async (req, res, nex
  * @param {String} plainTextMetrics Plain text metrics (optional for non-games)
  * @returns {Number} Puzzle id
  */
-
+/*
 router.post('/createPuzzleSecure/:address/:puzzleType/:plainTextMetrics/:params', async (req, res, next) => {
     let address = req.params.address
     let puzzleType = req.params.puzzleType
@@ -164,7 +192,22 @@ router.post('/validatePuzzleSecure/:puzzleId/:address/:score/:resultHash/:movesS
         resolve(await blockchain.validatePuzzleSecure(puzzleId, address, score, resultHash, movesSet)));
     res.json(json);
 });
+*/
 
+router.post('/puzzleCreateConfig/:address/:puzzleType/:plainTextMetrics/:params', async (req, res, next) => {
+    let address = req.params.address
+    let puzzleType = req.params.puzzleType
+    let plainTextMetrics = req.params.plainTextMetrics
+    let params = JSON.parse(req.params.params)
+    
+    if (plainTextMetrics == 'undefined')
+        plainTextMetrics = ''
+
+    let json = await new Promise(async resolve => 
+        resolve(await blockchain.puzzleCreateConfig(address, puzzleType, plainTextMetrics, params, true)));
+    res.json(json);
+});
+    
 router.post('/validatePuzzleSecureSign/:puzzleId/:address/:score/:metrics/:movesSet', async (req, res, next) => {
     let puzzleId = req.params.puzzleId
     let address = req.params.address

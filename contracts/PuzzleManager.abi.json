@@ -227,6 +227,29 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "puzzleId",
+        "type": "uint256"
+      },
+      {
+        "name": "metrics",
+        "type": "string"
+      }
+    ],
+    "name": "ValidateMetrics",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
