@@ -49,6 +49,8 @@
         "url": "https://kovan.infura.io/CHs7q12LsOAlHu4D3Kvr"
       },
       "ganache": {
+        "HDWallet": "MNEMONIC_ganache",
+        "HDWalletSignOnly": true,
         "contracts": {
           "PlayerScore": {
             "options": {
