@@ -48,7 +48,7 @@ class Game {
             this.dumpPuzzle(field)
 
             var moves = []
-            var movesCount = 3
+            var movesCount = 50
 
             var emptyPosition = {
                 x: 0,
