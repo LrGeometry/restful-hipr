@@ -6,7 +6,7 @@ process.env.NODE_ENV = 'test';
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 
-let url = "http://localhost:8080/";
+let url = "http://localhost:8086/";
 let server = require('../app');
 
 chai.use(chaiHttp);
