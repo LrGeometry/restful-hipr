@@ -28,10 +28,16 @@ function ipfsGetFile(req, res, next) {
     const validCID = 'QmQhM65XyqJ52QXWPz2opaGkALgH8XXhPn8n8nff4LDE6C'
 
     ipfs.files.get(validCID, function (err, files) {
-      files.forEach((file) => {
-        console.log(file.path)
-        console.log(file.content.toString('utf8'))
-      })
+        if (err) {
+            console.error('ipfsGetFile', err)
+            return
+        }
+        if (files) {
+            files.forEach((file) => {
+                console.log(file.path)
+                console.log(file.content.toString('utf8'))
+            })
+        }
     })
 }
 // init ]
