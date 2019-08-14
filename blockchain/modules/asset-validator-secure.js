@@ -161,14 +161,10 @@ class AssetValidator {
     }
 
     
-    async validatePuzzleSecureSign (id, playerAddress, score, metrics, movesSet) {
+    async validatePuzzleSecureSign (gameId, id, playerAddress, score, metrics, movesSet) {
         var puzzle = await this.db.getGamePuzzleById(id)
         if (!puzzle || puzzle.err)
             return puzzle
-
-        var field = JSON.parse(puzzle.params)
-        var moves = JSON.parse(`${movesSet}`).moveset
-        score = parseInt(score)
 
         // CHECK TWICE CALL
 
@@ -179,10 +175,17 @@ class AssetValidator {
 
 
         // VERIFY PUZZLE
+        // todo: review puzzle 1
 
-        if (!this.game.verifyPuzzle(field, moves, score)) {
-            return {
-                err: 'bad params'
+        if (gameId == 0) {
+            var field = JSON.parse(puzzle.params)
+            var moves = JSON.parse(`${movesSet}`).moveset
+            score = parseInt(score)
+    
+            if (!this.game.verifyPuzzle(field, moves, score)) {
+                return {
+                    err: 'bad params'
+                }
             }
         }
 

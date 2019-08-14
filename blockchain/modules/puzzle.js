@@ -37,7 +37,7 @@ class Game {
     generatePuzzle (puzzleType, initString, a, b) {
         var puzzleField
 
-        this.PUZZLE_TESTING = true
+        this.PUZZLE_TESTING = false
 
         if (puzzleType == 0) {
             puzzleField = this.generatePuzzle9x9(initString, a, b)
