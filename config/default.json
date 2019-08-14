@@ -3,7 +3,7 @@
   "blockchain": {
     "activeChain": [
       "eth",
-      "main"
+      "ganache"
     ],
     "//activeChain": [
       "eos",
@@ -56,31 +56,31 @@
             "options": {
               "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
             },
-            "address": "0x11ee9ff611bd9d24fd760aef7980e0dd977f9f63",
+            "address": "0x2d111c421f6797cddbdad805fe4d84347434522a",
             "abiPath": "contracts/PlayerScore.abi.json",
             "validation": {
               "contractName": "PlayerScore",
               "sourcePath": "",
               "exportedSymbols": {
                 "PlayerScore": [
-                  1011
+                  1145
                 ]
               },
               "compiler": {
                 "name": "solc",
                 "version": "0.4.24+commit.e67f0147.Emscripten.clang"
               },
-              "updatedAt": "2019-03-09T19:10:27.181Z",
+              "updatedAt": "2019-08-13T16:53:20.374Z",
               "validation": {
-                "hash": "491a2b12f4c676d33ae5b058c4eb91b136f142cf9daedf2292032a416a629ef1",
-                "deployDate": "2019-03-09T19:10:28.176Z",
+                "hash": "4c6666bc0e2251a6b7b586e0bdf2a8edab5089ede703c5c6a65fb8f673d97527",
+                "deployDate": "2019-08-13T16:53:21.437Z",
                 "deployBy": "HERC Team",
-                "abiHash": "da93a7c2ca07139bf30a86a007e8b278f8b49fbce1d4b3ada773e3850db795fc",
-                "sourceSize": 28216,
-                "sourceLines": 336,
-                "sourceHash": "705481fd5cd8a2647fd211a9ddc7afc44fb091d2a52460ab1a2c1701ff9d0cd7",
-                "bytecodeHash": "839176fea52d6bcf2bf40e804a5042b95093eac62cb5122e1eafc6539e52d0f7",
-                "buildHash": "3e89245ecc40b1c25ed3fc3f56279aa360f578f4195d88b26a9129370d17ae68"
+                "abiHash": "d0595ce5f8f9473044b08163eacef25f25a30c3266e212e011aace9cde2e118d",
+                "sourceSize": 30938,
+                "sourceLines": 413,
+                "sourceHash": "2bbbbf2b1e2854d2ce85ffa6ad57d1871e88e8aa62c4561ceee0ae08b41ce539",
+                "bytecodeHash": "2c3feac44534c3f235d4601b435e6cecc097dd6b22a792026342c4705e7696e9",
+                "buildHash": "9cdd5e47a22e261feb66d26daea3e07e2ec304d94a82a92f897ed59ddfc60af6"
               }
             },
             "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
@@ -89,31 +89,31 @@
             "options": {
               "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"
             },
-            "address": "0xf0831e19dadc09d13b1189a8c8b39b5ed90c23ac",
+            "address": "0xf359b7092a434cabe7c2c380a67ab50440144b3b",
             "abiPath": "contracts/PuzzleManager.abi.json",
             "validation": {
               "contractName": "PuzzleManager",
               "sourcePath": "",
               "exportedSymbols": {
                 "PuzzleManager": [
-                  483
+                  1629
                 ]
               },
               "compiler": {
                 "name": "solc",
                 "version": "0.4.24+commit.e67f0147.Emscripten.clang"
               },
-              "updatedAt": "2019-03-09T19:10:27.168Z",
+              "updatedAt": "2019-08-13T16:53:20.360Z",
               "validation": {
-                "hash": "b59d1e18679eba6c980ac063b64d38a1ed35d4dbfdc1dbda5833e14d04755079",
-                "deployDate": "2019-03-09T19:10:29.052Z",
+                "hash": "2728ddbc80e4465f4782bd0a234ff419062a04f84a5b63120b575cc36901fdd5",
+                "deployDate": "2019-08-13T16:53:22.239Z",
                 "deployBy": "HERC Team",
                 "abiHash": "66d04ced002f87c1aad27660584cf20bf8f273af02a92a17f0dabe13367480e8",
                 "sourceSize": 8101,
                 "sourceLines": 140,
                 "sourceHash": "ec3035e566c6a987b893157a45b221d55cb0821f3da72c861581b7fa22fa0988",
                 "bytecodeHash": "c7a3e00d697ef00f44400e0a255defce86fdd68d77b53a93835a914aff0de91c",
-                "buildHash": "2758c1b11ce408a00861f3d7091e217b89fd19eff688294f3f8e8233a600ffc1"
+                "buildHash": "534cce110373db3499d4e92af5004f01ba6d7fcfed886161a4b89565199cede9"
               }
             },
             "from": "0x2d7DCbCd35737890540DdEE4Aa229B2Cb15DE615"

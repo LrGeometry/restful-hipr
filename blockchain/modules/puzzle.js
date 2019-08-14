@@ -34,101 +34,236 @@ class Game {
         return field
     }
 
-    generatePuzzle (puzzleType, initString) {
-        var maxX = 3
-        var maxY = 3
+    generatePuzzle (puzzleType, initString, a, b) {
+        var puzzleField
 
-        if (puzzleType == '15') {
+        this.PUZZLE_TESTING = true
 
-            var field = this.initPuzzle({
-                maxX,
-                maxY
-            })
-
-            this.dumpPuzzle(field)
-
-            var moves = []
-            var movesCount = 50
-
-            var emptyPosition = {
-                x: 0,
-                y: 0
-            }
-
-//            var 
-            function getMoves(p, reverse) {
-                var m = {
-                    'L': {x:-1, y:0},
-                    'R': {x:1, y:0},
-                    'T': {x:0, y:-1},
-                    'B': {x:0, y:1}
-                }
-                if (p.x == 0) delete m['L']
-                if (p.x == maxX - 1) delete m['R']
-                if (p.y == 0) delete m['T']
-                if (p.y == maxY - 1) delete m['B']
-
-                if (reverse) delete m[reverse]
-
-                var a = []
-
-                for (var k in m)
-                    a.push({vec: k, dir: m[k]})
-                return a
-            }
-
-            var reverseMove = {
-                'L': 'R',
-                'R': 'L',
-                'T': 'B',
-                'B': 'T'
-            }
-
-            var reverse
-
-            for (var i = 0; i < movesCount; i++) {
-                var p = emptyPosition
-
-                var m = getMoves(p, reverse)
-
-                console.log('p', p)
-                console.log('m', m)
-
-                var index = Math.round(Math.random() * (m.length - 1))
-
-                console.log('index', index)
-
-                var dir = m[index].dir
-                reverse = reverseMove[m[index].vec]
-
-                console.log('dir', m[index].vec, dir)
-
-                var p1 = {x: p.x + dir.x, y: p.y + dir.y}
-
-//                player = p1
-
-                console.log(p1)
-
-                // swap
-                var a = field[p.y][p.x]
-                var b = field[p1.y][p1.x]
-                field[p.y][p.x] = b
-                field[p1.y][p1.x] = a
-
-//                moves.push([b, p1])
-                moves.push(p.x + p.y * maxX)
-
-                emptyPosition = p1
-            }
-
-            console.log('moves', JSON.stringify(moves))
-            
-            var puzzleField = this.dumpPuzzle(field)
+        if (puzzleType == 0) {
+            puzzleField = this.generatePuzzle9x9(initString, a, b)
+        }
+        else if (puzzleType == 1) {
+            puzzleField = this.generatePuzzleRubics(initString, a, b)
+        }
+        else if (puzzleType == 2) {
+            puzzleField = this.generatePuzzleTile(initString, a, b)
+        }
+        else if (puzzleType == 3) {
+            puzzleField = this.generatePuzzleColor(initString, a, b)
+        }
+        else {
+            console.log(`impossible puzzleType=${puzzleType}`)
+            return null
         }
 
         return puzzleField
     }
 
+    // 9x9 [
+
+    generatePuzzle9x9 (initString) {
+
+        var maxX = 3
+        var maxY = 3
+
+        var field = this.initPuzzle({
+            maxX,
+            maxY
+        })
+
+        this.dumpPuzzle(field)
+
+        var moves = []
+        var movesCount = 50
+
+        if (this.PUZZLE_TESTING) {
+            // TESTING
+
+            movesCount = 1
+        }
+
+        var emptyPosition = {
+            x: 0,
+            y: 0
+        }
+
+//            var 
+        function getMoves(p, reverse) {
+            var m = {
+                'L': {x:-1, y:0},
+                'R': {x:1, y:0},
+                'T': {x:0, y:-1},
+                'B': {x:0, y:1}
+            }
+            if (p.x == 0) delete m['L']
+            if (p.x == maxX - 1) delete m['R']
+            if (p.y == 0) delete m['T']
+            if (p.y == maxY - 1) delete m['B']
+
+            if (reverse) delete m[reverse]
+
+            var a = []
+
+            for (var k in m)
+                a.push({vec: k, dir: m[k]})
+            return a
+        }
+
+        var reverseMove = {
+            'L': 'R',
+            'R': 'L',
+            'T': 'B',
+            'B': 'T'
+        }
+
+        var reverse
+
+        for (var i = 0; i < movesCount; i++) {
+            var p = emptyPosition
+
+            var m = getMoves(p, reverse)
+
+            console.log('p', p)
+            console.log('m', m)
+
+            var index = Math.round(Math.random() * (m.length - 1))
+
+            console.log('index', index)
+
+            var dir = m[index].dir
+            reverse = reverseMove[m[index].vec]
+
+            console.log('dir', m[index].vec, dir)
+
+            var p1 = {x: p.x + dir.x, y: p.y + dir.y}
+
+//                player = p1
+
+            console.log(p1)
+
+            // swap
+            var a = field[p.y][p.x]
+            var b = field[p1.y][p1.x]
+            field[p.y][p.x] = b
+            field[p1.y][p1.x] = a
+
+//                moves.push([b, p1])
+            moves.push(p.x + p.y * maxX)
+
+            emptyPosition = p1
+        }
+
+        console.log('moves', JSON.stringify(moves))
+        
+        var puzzleField = this.dumpPuzzle(field)
+
+        return puzzleField
+    }
+        
+        // 9x9 ]
+        // RUBIC [
+
+    generatePuzzleRubics (initString) {
+        var maxX = 3
+        var maxY = 3 * 6 // 6 rubics sides
+
+        var field = this.initPuzzle({
+            maxX,
+            maxY
+        })
+
+        var moves = []
+        var movesCount = 50
+
+        if (this.PUZZLE_TESTING) {
+            // TESTING
+            
+            movesCount = 1
+        }
+    
+        var maxMoves = 8
+        for (var i = 0; i < movesCount; i++) {
+            var moveIndex = Math.round(Math.random() * maxMoves)
+
+            moves.push(moveIndex)
+        }
+
+        console.log('moves', JSON.stringify(moves))
+
+        return moves
+
+//        var puzzleField = this.dumpPuzzle(field)
+
+//        return puzzleField
+    }
+    
+    // RUBIC ]
+    // TILE [
+
+    generatePuzzleTile (initString) {
+        var maxX = 5
+        var maxY = 8
+
+        var field = this.initPuzzle({
+            maxX,
+            maxY
+        })
+
+        var maxCellType = 4
+
+        if (!this.PUZZLE_TESTING) {
+            // NORMAL
+
+            for (var i = 0; i < maxY; i++) {
+                for (var j = 0; j < maxX; j++) {
+                    var cellType = Math.round(Math.random() * maxCellType)
+                    field[i][j] = cellType
+                }
+            }
+        }
+        else {
+            // TESTING
+
+            for (var i = 0; i < maxY; i++) {
+                for (var j = 0; j < maxX; j++) {
+                    var cellType = 0
+                    field[i][j] = cellType
+                }
+            }
+            field[0][0] = 1
+            field[0][1] = 1
+        }
+
+        console.log('field', JSON.stringify(field))
+
+        var puzzleField = this.dumpPuzzle(field)
+
+        return puzzleField
+    }
+
+    // TILE ]
+    // COLOR [
+
+    generatePuzzleColor (initString, level) {
+        var points = [] 
+
+        var maxCellType = 4
+
+        for (var j = 0; j < level; j++) {
+            var x = Math.round(Math.random() * maxCellType)
+            var y = Math.round(Math.random() * maxCellType)
+
+            points.push([x, y])
+        }
+
+        console.log('points', JSON.stringify(points))
+
+        var puzzleField = this.dumpPuzzle(points)
+
+        return puzzleField
+    }
+    
+    // COLOR ]
     // check
     // moves
 

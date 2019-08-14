@@ -74,40 +74,46 @@ router.get('/status', async (req, res, next) => {
     
 /**
  * @name api/getTopScoresCount
+ * @param {Number} gameId GameId
  * @returns {Number} Total scores count
  */
 
-router.get('/getTopScoresCount', async (req, res, next) => {
+router.get('/getTopScoresCount/:gameId', async (req, res, next) => {
+    let gameId = parseInt(req.params.gameId);
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.getTopScoresCount()));
+        resolve(await blockchain.getTopScoresCount(gameId)));
     res.json(json);
 });
 
 /**
  * @name api/getTopScores
+ * @param {Number} gameId GameId
  * @param {Number} index Index
  * @param {Number} count Count
  * @returns {TopScoresArray} Top scores
  */
 
-router.get('/getTopScores/:index/:count', async (req, res, next) => {
+router.get('/getTopScores/:gameId/:index/:count', async (req, res, next) => {
+    let gameId = parseInt(req.params.gameId);
     let index = parseInt(req.params.index);
     let count = parseInt(req.params.count);
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.getTopScores(index, count)));
+        resolve(await blockchain.getTopScores(gameId, index, count)));
     res.json(json);
 });
 
 /**
  * @name api/setScore
+ * @param {Number} gameId GameId
  * @param {Number} score Player score
  * todo: review msg.sender address
  */
 
-router.post('/setScore/:score', async (req, res, next) => {
+router.post('/setScore/:gameId/:score', async (req, res, next) => {
+    let gameId = parseInt(req.params.gameId);
     let score = parseInt(req.params.score);
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.setScore(score)));
+        resolve(await blockchain.setScore(gameId, score)));
     res.json(json);
 });
 
@@ -153,7 +159,7 @@ router.get('/ipfsRequest/:address/:ipfsHash/:ipfsFilePath', async (req, res, nex
 
 /**
  * @name api/registerPuzzleAddress
- * @param {String} address 0xadddress
+ * @param {String} address 0xaddress
  * @param {String} params Params into hiprs like 'username/assetid/factomchainhash/ipfsHash/0xaddress'
  * @returns {Number} Puzzle id
  */
@@ -200,17 +206,19 @@ router.post('/validatePuzzleSecure/:puzzleId/:address/:score/:resultHash/:movesS
 });
 */
 
-router.post('/puzzleCreateConfig/:address/:puzzleType/:plainTextMetrics/:params', async (req, res, next) => {
+router.post('/puzzleCreateConfig/:address/:puzzleType/:a/:b/:plainTextMetrics/:params', async (req, res, next) => {
     let address = req.params.address
     let puzzleType = req.params.puzzleType
     let plainTextMetrics = req.params.plainTextMetrics
     let params = JSON.parse(req.params.params)
-    
+    let a = parseInt(req.params.a)
+    let b = parseInt(req.params.b)
+
     if (plainTextMetrics == 'undefined')
         plainTextMetrics = ''
 
     let json = await new Promise(async resolve => 
-        resolve(await blockchain.puzzleCreateConfig(address, puzzleType, plainTextMetrics, params, true)));
+        resolve(await blockchain.puzzleCreateConfig(address, puzzleType, a, b, plainTextMetrics, params, true)));
     res.json(json);
 });
     

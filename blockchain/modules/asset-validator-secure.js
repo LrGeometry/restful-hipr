@@ -9,7 +9,7 @@ class AssetValidator {
     }
 
     // utils [
-
+/*
     getRandomPuzzleStringByType (puzzleType) {
         let s = ''
         let arr = []
@@ -39,7 +39,7 @@ class AssetValidator {
         s = arr.join()
         return s;
     }
-    
+    */
     // utils ]
 
 
@@ -52,18 +52,31 @@ class AssetValidator {
         }
     }
 
-    async puzzleCreateConfig (address, puzzleType, plainTextMetrics, params) {
+    async puzzleCreateConfig (address, puzzleType, a, b, plainTextMetrics, params) {
         //        let uniqueId = `${Math.random()}-${new Date().getTime()}`
         let metrics
         let metricsHash
         let checkOwner
+
+        // GENERATE PUZZLE [
+
+        var puzzleField = this.game.generatePuzzle(puzzleType, '', a, b)
+
+        var dbPuzzle = await this.db.setGamePuzzle({
+            puzzleId: -1,
+            validated: false,
+            params: JSON.stringify(puzzleField)
+        })
+
+        // GENERATE PUZZLE ]
+
         if (plainTextMetrics != '') {
             metrics = plainTextMetrics 
             metricsHash = keccak256(metrics)
             checkOwner = false
         }
         else {
-            let puzzleString = this.getRandomPuzzleStringByType(puzzleType)
+            let puzzleString = JSON.stringify(puzzleField) //this.getRandomPuzzleStringByType(puzzleType)
             let params = await this.db.getPuzzleParams(address)
             metrics = `${puzzleString}-${params ? params.params : 'null-params'}`
             metricsHash = keccak256(metrics)
@@ -71,13 +84,6 @@ class AssetValidator {
             checkOwner = true
         }
         metricsHash = '0x'+metricsHash //web3.fromAscii(metricsHash)
-        var puzzleField = this.game.generatePuzzle("15")//puzzleType)
-
-        var dbPuzzle = await this.db.setGamePuzzle({
-            puzzleId: -1,
-            validated: false,
-            params: JSON.stringify(puzzleField)
-        })
 
         return {
             id: dbPuzzle.id,
